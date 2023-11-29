@@ -9,14 +9,22 @@
 
 ```mermaid
 sequenceDiagram
-    participant User as ユーザー
-    participant System as システム
+    participant User
+    participant Frontend
+    participant Backend
+    participant Database
 
-    User->>System: リクエスト送信
-    activate System
+    User->>Frontend: アクセス（フィード一覧表示要求）
+    Frontend->>Backend: GET /feeds
+    Backend->>Database: フィードデータのクエリ
+    Database-->>Backend: フィードデータ
+    Backend-->>Frontend: フィードデータのレスポンス
+    Frontend-->>User: フィード一覧を表示
 
-    Note over System: リクエストを処理中
-
-    System->>User: レスポンスを返信
-    deactivate System
+    User->>Frontend: 投稿カードクリック（詳細表示要求）
+    Frontend->>Backend: GET /feeds/{id}
+    Backend->>Database: 投稿詳細データのクエリ
+    Database-->>Backend: 投稿詳細データ
+    Backend-->>Frontend: 投稿詳細データのレスポンス
+    Frontend-->>User: 投稿詳細を表示
 ```
