@@ -14,55 +14,54 @@ sequenceDiagram
     participant Backend as バックエンド
     participant Database as データベース
 
-    activate User
-    User->>Frontend: フィードを表示リクエスト
-    activate Frontend
-    Frontend->>Backend: フィード取得リクエスト
-    activate Backend
-    Backend-->>Database: ダミーデータ取得リクエスト
-    activate Database
+    User->>Frontend: アプリケーション起動
+    Frontend->>Backend: フィード取得要求
+    Backend->>Database: フィードデータ取得要求
     Database-->>Backend: ダミーデータ
-    deactivate Database
-    Backend-->>Frontend: ダミーデータ
-    deactivate Backend
-    Frontend-->>User: フィード表示
 
-    User->>Frontend: 投稿詳細表示リクエスト
-    activate Frontend
-    Frontend->>Backend: 投稿詳細取得リクエスト
-    activate Backend
-    Backend-->>Database: ダミーデータ取得リクエスト
-    activate Database
+    loop フィード取得
+        Backend-->>Backend: フィードデータ処理
+    end
+
+    Backend-->>Frontend: フィードデータ
+    Frontend->>Frontend: 投稿一覧画面構築
+
+    User->>Frontend: 投稿一覧表示
+    Frontend->>Frontend: 選択した投稿詳細取得要求
+    Frontend->>Backend: 投稿詳細取得要求
+    Backend->>Database: 投稿詳細データ取得要求
     Database-->>Backend: ダミーデータ
-    deactivate Database
-    Backend-->>Frontend: ダミーデータ
-    deactivate Backend
-    Frontend-->>User: 投稿詳細表示
 
-    User->>Frontend: 投稿検索リクエスト
-    activate Frontend
-    Frontend->>Backend: 投稿検索リクエスト
-    activate Backend
-    Backend-->>Database: ダミーデータ検索リクエスト
-    activate Database
+    loop 投稿詳細取得
+        Backend-->>Backend: 投稿詳細データ処理
+    end
+
+    Backend-->>Frontend: 投稿詳細データ
+    Frontend->>Frontend: 投稿詳細画面構築
+
+    User->>Frontend: 投稿検索
+    Frontend->>Frontend: 検索条件入力
+    Frontend->>Backend: 投稿検索要求
+    Backend->>Database: 投稿検索データ取得要求
     Database-->>Backend: ダミーデータ
-    deactivate Database
-    Backend-->>Frontend: ダミーデータ
-    deactivate Backend
-    Frontend-->>User: 検索結果表示
 
-    User->>Frontend: 更新リクエスト
-    activate Frontend
-    Frontend->>Backend: 更新リクエスト
-    activate Backend
-    Backend-->>Database: ダミーデータ更新リクエスト
-    activate Database
+    loop 投稿検索処理
+        Backend-->>Backend: 投稿検索データ処理
+    end
+
+    Backend-->>Frontend: 検索結果データ
+    Frontend->>Frontend: 検索結果画面構築
+
+    User->>Frontend: フィード更新
+    Frontend->>Backend: フィード更新要求
+    Backend->>Database: 新しいフィードデータ取得要求
     Database-->>Backend: ダミーデータ
-    deactivate Database
-    Backend-->>Frontend: ダミーデータ
-    deactivate Backend
-    Frontend-->>User: 更新完了
 
-    deactivate Frontend
-    deactivate User
+    loop フィード更新処理
+        Backend-->>Backend: 新しいフィードデータ処理
+    end
+
+    Backend-->>Frontend: 更新されたフィードデータ
+    Frontend->>Frontend: 投稿一覧画面更新
+
 ```
