@@ -14,67 +14,55 @@ sequenceDiagram
     participant Backend as バックエンド
     participant Database as データベース
 
-    User ->> Frontend: ページロード
+    activate User
+    User->>Frontend: フィードを表示リクエスト
     activate Frontend
-
-    Frontend ->> Backend: フィード取得要求
+    Frontend->>Backend: フィード取得リクエスト
     activate Backend
-
-    Backend ->> Database: フィード取得クエリ（ダミーデータ）
+    Backend-->>Database: ダミーデータ取得リクエスト
     activate Database
-
-    Database -->> Backend: ダミーデータ
+    Database-->>Backend: ダミーデータ
     deactivate Database
-
-    Backend -->> Frontend: フィードデータ
+    Backend-->>Frontend: ダミーデータ
     deactivate Backend
+    Frontend-->>User: フィード表示
 
-    Frontend ->> Frontend: 投稿一覧画面構築
-
-    User ->> Frontend: 投稿一覧表示
+    User->>Frontend: 投稿詳細表示リクエスト
     activate Frontend
-
-    Frontend -->> Frontend: 投稿一覧表示
-
-    User ->> Frontend: 投稿選択
-    activate Frontend
-
-    Frontend ->> Backend: 投稿詳細取得要求
+    Frontend->>Backend: 投稿詳細取得リクエスト
     activate Backend
-
-    Backend -->> Frontend: 投稿詳細データ
-    deactivate Backend
-
-    Frontend ->> Frontend: 投稿詳細表示
-
-    User ->> Frontend: 投稿検索
-    activate Frontend
-
-    Frontend ->> Backend: 投稿検索要求
-    activate Backend
-
-    Backend -->> Frontend: 検索結果
-    deactivate Backend
-
-    Frontend -->> Frontend: 検索結果表示
-
-    User ->> Frontend: フィード手動更新
-    activate Frontend
-
-    Frontend ->> Backend: 更新要求
-    activate Backend
-
-    Backend ->> Database: フィード更新クエリ（ダミーデータ）
+    Backend-->>Database: ダミーデータ取得リクエスト
     activate Database
-
-    Database -->> Backend: 更新データ
+    Database-->>Backend: ダミーデータ
     deactivate Database
-
-    Backend -->> Frontend: 更新完了
+    Backend-->>Frontend: ダミーデータ
     deactivate Backend
+    Frontend-->>User: 投稿詳細表示
 
-    Frontend -->> Frontend: フィード更新表示
+    User->>Frontend: 投稿検索リクエスト
+    activate Frontend
+    Frontend->>Backend: 投稿検索リクエスト
+    activate Backend
+    Backend-->>Database: ダミーデータ検索リクエスト
+    activate Database
+    Database-->>Backend: ダミーデータ
+    deactivate Database
+    Backend-->>Frontend: ダミーデータ
+    deactivate Backend
+    Frontend-->>User: 検索結果表示
+
+    User->>Frontend: 更新リクエスト
+    activate Frontend
+    Frontend->>Backend: 更新リクエスト
+    activate Backend
+    Backend-->>Database: ダミーデータ更新リクエスト
+    activate Database
+    Database-->>Backend: ダミーデータ
+    deactivate Database
+    Backend-->>Frontend: ダミーデータ
+    deactivate Backend
+    Frontend-->>User: 更新完了
 
     deactivate Frontend
-
+    deactivate User
 ```
