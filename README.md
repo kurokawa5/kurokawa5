@@ -9,22 +9,72 @@
 
 ```mermaid
 sequenceDiagram
-    participant User
-    participant Frontend
-    participant Backend
-    participant Database
+    participant User as 利用者
+    participant Frontend as フロントエンド
+    participant Backend as バックエンド
+    participant Database as データベース
 
-    User->>Frontend: アクセス（フィード一覧表示要求）
-    Frontend->>Backend: GET /feeds
-    Backend->>Database: フィードデータのクエリ
-    Database-->>Backend: フィードデータ
-    Backend-->>Frontend: フィードデータのレスポンス
-    Frontend-->>User: フィード一覧を表示
+    User ->> Frontend: ページロード
+    activate Frontend
 
-    User->>Frontend: 投稿カードクリック（詳細表示要求）
-    Frontend->>Backend: GET /feeds/{id}
-    Backend->>Database: 投稿詳細データのクエリ
-    Database-->>Backend: 投稿詳細データ
-    Backend-->>Frontend: 投稿詳細データのレスポンス
-    Frontend-->>User: 投稿詳細を表示
+    Frontend ->> Backend: フィード取得要求
+    activate Backend
+
+    Backend ->> Database: フィード取得クエリ（ダミーデータ）
+    activate Database
+
+    Database -->> Backend: ダミーデータ
+    deactivate Database
+
+    Backend -->> Frontend: フィードデータ
+    deactivate Backend
+
+    Frontend ->> Frontend: 投稿一覧画面構築
+
+    User ->> Frontend: 投稿一覧表示
+    activate Frontend
+
+    Frontend -->> Frontend: 投稿一覧表示
+
+    User ->> Frontend: 投稿選択
+    activate Frontend
+
+    Frontend ->> Backend: 投稿詳細取得要求
+    activate Backend
+
+    Backend -->> Frontend: 投稿詳細データ
+    deactivate Backend
+
+    Frontend ->> Frontend: 投稿詳細表示
+
+    User ->> Frontend: 投稿検索
+    activate Frontend
+
+    Frontend ->> Backend: 投稿検索要求
+    activate Backend
+
+    Backend -->> Frontend: 検索結果
+    deactivate Backend
+
+    Frontend -->> Frontend: 検索結果表示
+
+    User ->> Frontend: フィード手動更新
+    activate Frontend
+
+    Frontend ->> Backend: 更新要求
+    activate Backend
+
+    Backend ->> Database: フィード更新クエリ（ダミーデータ）
+    activate Database
+
+    Database -->> Backend: 更新データ
+    deactivate Database
+
+    Backend -->> Frontend: 更新完了
+    deactivate Backend
+
+    Frontend -->> Frontend: フィード更新表示
+
+    deactivate Frontend
+
 ```
